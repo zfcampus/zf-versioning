@@ -1,0 +1,34 @@
+{
+    "name": "zfcampus/zf-versioning",
+    "description": "ZF2 Module providing listeners and route prototypes for implementing API versioning",
+    "type": "library",
+    "license": "BSD-2-Clause",
+    "keywords": [
+        "zf2",
+        "zend",
+        "module",
+        "rest"
+    ],
+    "homepage": "https://bitbucket.org/zendframework/zfversioning",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.zendframework.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zend-eventmanager": ">=2.2.0",
+        "zendframework/zend-http": ">=2.2.0",
+        "zendframework/zend-mvc": ">=2.2.0",
+    },
+    "require-dev": {
+        "phpunit/PHPUnit": "3.7.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "ZF\\Versioning\\": "src/",
+            "ZFTest\\": "test/"
+        }
+    }
+}
