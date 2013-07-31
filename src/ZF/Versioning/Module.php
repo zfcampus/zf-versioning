@@ -31,4 +31,33 @@ class Module
     {
         return include __DIR__ . '/../../../config/module.config.php';
     }
+
+    public function getServiceConfig()
+    {
+        return array('factories' => array(
+            'ZF\Versioning\ContentTypeListener' => function ($services) {
+                $config = array();
+                if ($services->has('Config')) {
+                    $allConfig = $services->get('Config');
+                    if (isset($allConfig['zf-versioning'])) {
+                        $config = $allConfig['zf-versioning'];
+                    }
+                }
+
+                $listener = new ContentTypeListener();
+                foreach ($config as $regexp) {
+                    $listener->addRegexp($regexp);
+                }
+                return $listener;
+            },
+        ));
+    }
+
+    public function onBootstrap($e)
+    {
+        $app      = $e->getTarget();
+        $events   = $app->getEventManager();
+        $services = $app->getServiceManager();
+        $events->attach($services->get('ZF\Versioning\ContentTypeListener'));
+    }
 }
