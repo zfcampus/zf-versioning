@@ -7,6 +7,8 @@ namespace ZFTest\Versioning;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\EventManager\EventManager;
+use Zend\ModuleManager\ModuleEvent;
+use Zend\ModuleManager\ModuleManager;
 use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceManager;
 use ZF\Versioning\ContentTypeListener;
@@ -80,5 +82,19 @@ class ModuleTest extends TestCase
         $callback = $listeners->getIterator()->current()->getCallback();
         $test     = array_shift($callback);
         $this->assertSame($listener, $test);
+    }
+
+    public function testInitMethodRegistersPrototypeListenerWithModuleEventManager()
+    {
+        $moduleManager = new ModuleManager(array());
+        $this->module->init($moduleManager);
+
+        $events    = $moduleManager->getEventManager();
+        $listeners = $events->getListeners(ModuleEvent::EVENT_MERGE_CONFIG);
+        $this->assertEquals(1, count($listeners));
+        $this->assertTrue($listeners->hasPriority(1));
+        $callback = $listeners->getIterator()->current()->getCallback();
+        $test     = array_shift($callback);
+        $this->assertInstanceOf('ZF\Versioning\PrototypeRouteListener', $test);
     }
 }

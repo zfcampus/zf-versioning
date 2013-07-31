@@ -53,6 +53,13 @@ class Module
         ));
     }
 
+    public function init($moduleManager)
+    {
+        $events = $moduleManager->getEventManager();
+        $prototypeRouteListener = new PrototypeRouteListener();
+        $events->attach($prototypeRouteListener);
+    }
+
     public function onBootstrap($e)
     {
         $app      = $e->getTarget();
