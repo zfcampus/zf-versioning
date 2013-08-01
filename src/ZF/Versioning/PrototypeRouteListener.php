@@ -33,8 +33,8 @@ class PrototypeRouteListener extends AbstractListenerAggregate
 
     /**
      * Attach listener to ModuleEvent::EVENT_MERGE_CONFIG
-     * 
-     * @param  EventManagerInterface $events 
+     *
+     * @param  EventManagerInterface $events
      */
     public function attach(EventManagerInterface $events)
     {
@@ -47,8 +47,8 @@ class PrototypeRouteListener extends AbstractListenerAggregate
      * Looks for zf-versioning.url and router configuration; if both present,
      * injects the route prototype and adds a chain route to each route listed
      * in the zf-versioning.url array.
-     * 
-     * @param  ModuleEvent $e 
+     *
+     * @param  ModuleEvent $e
      */
     public function onMergeConfig(ModuleEvent $e)
     {

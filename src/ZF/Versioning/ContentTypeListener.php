@@ -18,7 +18,7 @@ class ContentTypeListener extends AbstractListenerAggregate
     );
 
     /**
-     * @param EventManagerInterface $events 
+     * @param EventManagerInterface $events
      */
     public function attach(EventManagerInterface $events)
     {
@@ -27,8 +27,8 @@ class ContentTypeListener extends AbstractListenerAggregate
 
     /**
      * Add a regular expression to the stack
-     * 
-     * @param  string $regex 
+     *
+     * @param  string $regex
      * @return self
      */
     public function addRegexp($regex)
@@ -46,8 +46,8 @@ class ContentTypeListener extends AbstractListenerAggregate
 
     /**
      * Match against the Content-Type header and inject into the route matches
-     * 
-     * @param MvcEvent $e 
+     *
+     * @param MvcEvent $e
      */
     public function onRoute(MvcEvent $e)
     {
@@ -85,9 +85,9 @@ class ContentTypeListener extends AbstractListenerAggregate
 
     /**
      * Inject regex matches into the route matches
-     * 
-     * @param  RouteMatch $routeMatches 
-     * @param  array $matches 
+     *
+     * @param  RouteMatch $routeMatches
+     * @param  array $matches
      */
     protected function injectRouteMatches(RouteMatch $routeMatches, array $matches)
     {
