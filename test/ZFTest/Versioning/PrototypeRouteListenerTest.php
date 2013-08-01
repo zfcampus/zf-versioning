@@ -89,7 +89,7 @@ class PrototypeRouteListenerTest extends TestCase
      */
     public function testPrototypeAddedToRoutesProvidedToListener(array $routes)
     {
-        $this->config['zf-versioning'] = array('url' => $routes);
+        $this->config['zf-versioning'] = array('uri' => $routes);
         $this->configListener->setMergedConfig($this->config);
         $listener = new PrototypeRouteListener();
         $listener->onMergeConfig($this->event);

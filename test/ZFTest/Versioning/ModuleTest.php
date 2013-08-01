@@ -52,14 +52,16 @@ class ModuleTest extends TestCase
     {
         $config = array(
             'zf-versioning' => array(
-                '#^application/vendor\.(?P<vendor>mwop)\.(?P<resource>user|status)$#',
+                'content-type' => array(
+                    '#^application/vendor\.(?P<vendor>mwop)\.(?P<resource>user|status)$#',
+                ),
             ),
         );
         $this->services->setService('config', $config);
 
         $listener = $factory($this->services);
         $this->assertInstanceOf('ZF\Versioning\ContentTypeListener', $listener);
-        $this->assertAttributeContains($config['zf-versioning'][0], 'regexes', $listener);
+        $this->assertAttributeContains($config['zf-versioning']['content-type'][0], 'regexes', $listener);
     }
 
     /**

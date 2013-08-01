@@ -67,9 +67,9 @@ class PrototypeRouteListener extends AbstractListenerAggregate
         }
 
         // Do we need to inject a prototype?
-        if (!isset($config['zf-versioning']['url'])
-            || !is_array($config['zf-versioning']['url'])
-            || empty($config['zf-versioning']['url'])
+        if (!isset($config['zf-versioning']['uri'])
+            || !is_array($config['zf-versioning']['uri'])
+            || empty($config['zf-versioning']['uri'])
         ) {
             return;
         }
@@ -86,7 +86,7 @@ class PrototypeRouteListener extends AbstractListenerAggregate
 
         // Pre-process route list to strip out duplicates (often a result of
         // specifying nested routes)
-        $routes   = $config['zf-versioning']['url'];
+        $routes   = $config['zf-versioning']['uri'];
         $filtered = array();
         foreach ($routes as $index => $route) {
             if (strstr($route, '/')) {

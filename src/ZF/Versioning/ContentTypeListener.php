@@ -33,6 +33,13 @@ class ContentTypeListener extends AbstractListenerAggregate
      */
     public function addRegexp($regex)
     {
+        if (!is_string($regex)) {
+            throw new Exception\InvalidArgumentException(sprintf(
+                '%s expects a string regular expression as an argument; received %s',
+                __METHOD__,
+                (is_object($regex) ? get_class($regex) : gettype($regex))
+            ));
+        }
         $this->regexes[] = $regex;
         return $this;
     }

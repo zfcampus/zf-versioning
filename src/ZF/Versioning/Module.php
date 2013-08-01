@@ -39,8 +39,11 @@ class Module
                 $config = array();
                 if ($services->has('Config')) {
                     $allConfig = $services->get('Config');
-                    if (isset($allConfig['zf-versioning'])) {
-                        $config = $allConfig['zf-versioning'];
+                    if (isset($allConfig['zf-versioning'])
+                        && isset($allConfig['zf-versioning']['content-type'])
+                        && is_array($allConfig['zf-versioning']['content-type'])
+                    ) {
+                        $config = $allConfig['zf-versioning']['content-type'];
                     }
                 }
 
