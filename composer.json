@@ -19,15 +19,15 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zend-eventmanager": ">=2.3.0dev",
-        "zendframework/zend-http": ">=2.3.0dev",
-        "zendframework/zend-modulemanager": ">=2.3.0dev",
-        "zendframework/zend-mvc": ">=2.3.0dev"
+        "zendframework/zend-eventmanager": "dev-develop",
+        "zendframework/zend-http": "dev-develop",
+        "zendframework/zend-modulemanager": "dev-develop",
+        "zendframework/zend-mvc": "dev-develop"
     },
     "require-dev": {
         "phpunit/PHPUnit": "3.7.*",
-        "zendframework/zend-config": ">=2.3.0dev",
-        "zendframework/zend-servicemanager": ">=2.3.0dev"
+        "zendframework/zend-config": "dev-develop",
+        "zendframework/zend-servicemanager": "dev-develop"
     },
     "autoload": {
         "psr-0": {
