@@ -9,12 +9,9 @@
         "module",
         "rest"
     ],
-    "homepage": "https://bitbucket.org/zendframework/zfversioning",
     "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packages.zendframework.com"
-        }
+        { "type": "composer", "url": "https://packages.zendframework.com" },
+        { "type": "composer", "url": "http://packages-zfcampus.rhcloud.com" }
     ],
     "minimum-stability": "dev",
     "require": {
