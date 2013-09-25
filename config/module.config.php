@@ -28,4 +28,9 @@ return array(
             // would chain the above named routes, and version them.
         ),
     ),
+    'service_manager' => array(
+        'invokables' => array(
+            'ZF\Versioning\VersionListener' => 'ZF\Versioning\VersionListener',
+        ),
+    ),
 );
