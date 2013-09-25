@@ -69,5 +69,6 @@ class Module
         $events   = $app->getEventManager();
         $services = $app->getServiceManager();
         $events->attach($services->get('ZF\Versioning\ContentTypeListener'));
+        $events->attach($services->get('ZF\Versioning\VersionListener'));
     }
 }
