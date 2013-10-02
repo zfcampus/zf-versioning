@@ -26,6 +26,9 @@ class PrototypeRouteListener extends AbstractListenerAggregate
      * @var array
      */
     protected $versionRouteOptions = array(
+        'defaults'    => array(
+            'version' => 1,
+        ),
         'constraints' => array(
             'version' => '\d+',
         ),

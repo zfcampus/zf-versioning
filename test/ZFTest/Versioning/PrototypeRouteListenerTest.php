@@ -104,11 +104,17 @@ class PrototypeRouteListenerTest extends TestCase
             $routeConfig = $routesConfig[$routeName];
             $this->assertArrayHasKey('options', $routeConfig);
             $options = $routeConfig['options'];
+
             $this->assertArrayHasKey('route', $options);
             $this->assertSame(0, strpos($options['route'], '[/v:version]'));
+
             $this->assertArrayHasKey('constraints', $options);
             $this->assertArrayHasKey('version', $options['constraints']);
             $this->assertEquals('\d+', $options['constraints']['version']);
+
+            $this->assertArrayHasKey('defaults', $options);
+            $this->assertArrayHasKey('version', $options['constraints']);
+            $this->assertEquals(1, $options['constraints']['version']);
         }
     }
 }
