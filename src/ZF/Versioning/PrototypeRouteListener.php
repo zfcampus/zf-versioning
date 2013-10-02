@@ -9,25 +9,25 @@ use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 use Zend\ModuleManager\Listener\ConfigListener;
 use Zend\ModuleManager\ModuleEvent;
+use Zend\Stdlib\ArrayUtils;
 
 class PrototypeRouteListener extends AbstractListenerAggregate
 {
     /**
-     * Route prototype to add to router
+     * Match to prepend to versioned routes
+     * 
+     * @var string
+     */
+    protected $versionRoutePrefix = '[/v:version]';
+
+    /**
+     * Constraints to introducde in versioned routes
+     * 
      * @var array
      */
-    protected $versionRoutePrototype = array(
-        'zf_ver_version' => array(
-            'type' => 'segment',
-            'options' => array(
-                'route' => '/v:version',
-                'constraints' => array(
-                    'version' => '\d+',
-                ),
-                'defaults' => array(
-                    'version' => 1,
-                ),
-            ),
+    protected $versionRouteOptions = array(
+        'constraints' => array(
+            'version' => '\d+',
         ),
     );
 
@@ -74,16 +74,6 @@ class PrototypeRouteListener extends AbstractListenerAggregate
             return;
         }
 
-        // Insert route prototype
-        if (!isset($config['router']['prototypes'])) {
-            $config['router']['prototypes'] = $this->versionRoutePrototype;
-        } else {
-            $config['router']['prototypes'] = array_merge(
-                $config['router']['prototypes'],
-                $this->versionRoutePrototype
-            );
-        }
-
         // Pre-process route list to strip out duplicates (often a result of
         // specifying nested routes)
         $routes   = $config['zf-versioning']['uri'];
@@ -105,11 +95,14 @@ class PrototypeRouteListener extends AbstractListenerAggregate
             if (!isset($config['router']['routes'][$routeName])) {
                 continue;
             }
-            if (!isset($config['router']['routes'][$routeName]['chain_routes'])) {
-                $config['router']['routes'][$routeName]['chain_routes'] = array('zf_ver_version');
-            } else {
-                $config['router']['routes'][$routeName]['chain_routes'][] = 'zf_ver_version';
-            }
+
+            $config['router']['routes'][$routeName]['options']['route'] = $this->versionRoutePrefix
+                . $config['router']['routes'][$routeName]['options']['route'];
+
+            $config['router']['routes'][$routeName]['options'] = ArrayUtils::merge(
+                $config['router']['routes'][$routeName]['options'],
+                $this->versionRouteOptions
+            );
         }
 
         // Reset merged config
