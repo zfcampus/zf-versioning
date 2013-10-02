@@ -70,10 +70,10 @@ class VersionListener extends AbstractListenerAggregate
      */
     protected function getVersionFromRouteMatch(RouteMatch $routeMatches)
     {
-        $version = $routeMatches->getParam('version', false);
+        $version = $routeMatches->getParam('zf_ver_version', false);
         if ($version) {
             return $version;
         }
-        return $routeMatches->getParam('zf_ver_version', false);
+        return $routeMatches->getParam('version', false);
     }
 }
