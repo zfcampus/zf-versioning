@@ -93,7 +93,6 @@ class ContentTypeListenerTest extends TestCase
         return array(
             'bad-prefix'                   => array('application/vendor.mwop.v1.status'),
             'bad-version'                  => array('application/vnd.zend.2.user'),
-            'missing-resource'             => array('application/vnd.zend.v3'),
             'missing-version'              => array('application/vnd.zend.user'),
             'missing-version-and-resource' => array('application/vnd.zend'),
         );

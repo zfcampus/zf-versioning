@@ -39,6 +39,17 @@ class ModuleTest extends TestCase
     /**
      * @depends testModuleDefinesServiceForContentTypeListener
      */
+    public function testModuleDefinesServiceForAcceptListener($factory)
+    {
+        $config = $this->module->getServiceConfig();
+        $this->assertArrayHasKey('factories', $config);
+        $this->assertArrayHasKey('ZF\Versioning\AcceptListener', $config['factories']);
+        $this->assertInstanceOf('Closure', $config['factories']['ZF\Versioning\AcceptListener']);
+    }
+
+    /**
+     * @depends testModuleDefinesServiceForContentTypeListener
+     */
     public function testServiceFactoryDefinedInModuleReturnsListener($factory)
     {
         $listener = $factory($this->services);
@@ -67,23 +78,37 @@ class ModuleTest extends TestCase
     /**
      * @depends testModuleDefinesServiceForContentTypeListener
      */
-    public function testOnBootstrapMethodRegistersListenerWithEventManager($factory)
+    public function testOnBootstrapMethodRegistersListenersWithEventManager($factory)
     {
-        $this->services->setFactory('ZF\Versioning\ContentTypeListener', $factory);
+        $serviceConfig = $this->module->getServiceConfig();
+        $this->services->setFactory('ZF\Versioning\ContentTypeListener', $serviceConfig['factories']['ZF\Versioning\ContentTypeListener']);
+        $this->services->setFactory('ZF\Versioning\AcceptListener', $serviceConfig['factories']['ZF\Versioning\AcceptListener']);
+        $this->services->setInvokableClass('ZF\Versioning\VersionListener', 'ZF\Versioning\VersionListener');
 
         $event = new MvcEvent();
         $event->setTarget($this->app);
 
         $this->module->onBootstrap($event);
 
-        $listener = $this->services->get('ZF\Versioning\ContentTypeListener');
-
         $listeners = $this->events->getListeners(MvcEvent::EVENT_ROUTE);
-        $this->assertEquals(1, count($listeners));
+        $this->assertEquals(3, count($listeners));
         $this->assertTrue($listeners->hasPriority(-40));
-        $callback = $listeners->getIterator()->current()->getCallback();
-        $test     = array_shift($callback);
-        $this->assertSame($listener, $test);
+
+        $test = array();
+        foreach ($listeners as $listener) {
+            $callback = $listener->getCallback();
+            $test[]   = array_shift($callback);
+        }
+
+        $expected = array(
+            'ZF\Versioning\ContentTypeListener',
+            'ZF\Versioning\AcceptListener',
+            'ZF\Versioning\VersionListener',
+        );
+        foreach ($expected as $class) {
+            $listener = $this->services->get($class);
+            $this->assertContains($listener, $test);
+        }
     }
 
     public function testInitMethodRegistersPrototypeListenerWithModuleEventManager()

@@ -97,15 +97,18 @@ class PrototypeRouteListenerTest extends TestCase
         $config = $this->configListener->getMergedConfig(false);
         $this->assertArrayHasKey('router', $config, var_export($config, 1));
         $routerConfig = $config['router'];
-        $this->assertArrayHasKey('prototypes', $routerConfig, var_export($routerConfig, 1));
-        $this->assertArrayHasKey('zf_ver_version', $routerConfig['prototypes']);
 
         $routesConfig = $routerConfig['routes'];
         foreach ($routes as $routeName) {
             $this->assertArrayHasKey($routeName, $routesConfig);
             $routeConfig = $routesConfig[$routeName];
-            $this->assertArrayHasKey('chain_routes', $routeConfig);
-            $this->assertEquals(array('zf_ver_version'), $routeConfig['chain_routes']);
+            $this->assertArrayHasKey('options', $routeConfig);
+            $options = $routeConfig['options'];
+            $this->assertArrayHasKey('route', $options);
+            $this->assertSame(0, strpos($options['route'], '[/v:version]'));
+            $this->assertArrayHasKey('constraints', $options);
+            $this->assertArrayHasKey('version', $options['constraints']);
+            $this->assertEquals('\d+', $options['constraints']['version']);
         }
     }
 }
