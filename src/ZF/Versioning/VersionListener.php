@@ -77,4 +77,3 @@ class VersionListener extends AbstractListenerAggregate
         return $routeMatches->getParam('zf_ver_version', false);
     }
 }
-

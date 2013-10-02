@@ -35,6 +35,24 @@ class Module
     public function getServiceConfig()
     {
         return array('factories' => array(
+            'ZF\Versioning\AcceptListener' => function ($services) {
+                $config = array();
+                if ($services->has('Config')) {
+                    $allConfig = $services->get('Config');
+                    if (isset($allConfig['zf-versioning'])
+                        && isset($allConfig['zf-versioning']['content-type'])
+                        && is_array($allConfig['zf-versioning']['content-type'])
+                    ) {
+                        $config = $allConfig['zf-versioning']['content-type'];
+                    }
+                }
+
+                $listener = new AcceptListener();
+                foreach ($config as $regexp) {
+                    $listener->addRegexp($regexp);
+                }
+                return $listener;
+            },
             'ZF\Versioning\ContentTypeListener' => function ($services) {
                 $config = array();
                 if ($services->has('Config')) {
@@ -68,6 +86,7 @@ class Module
         $app      = $e->getTarget();
         $events   = $app->getEventManager();
         $services = $app->getServiceManager();
+        $events->attach($services->get('ZF\Versioning\AcceptListener'));
         $events->attach($services->get('ZF\Versioning\ContentTypeListener'));
         $events->attach($services->get('ZF\Versioning\VersionListener'));
     }

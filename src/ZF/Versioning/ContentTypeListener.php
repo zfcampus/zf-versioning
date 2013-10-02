@@ -13,8 +13,16 @@ use Zend\Mvc\Router\RouteMatch;
 
 class ContentTypeListener extends AbstractListenerAggregate
 {
+    /**
+     * @var string
+     */
+    protected $headerName = 'content-type';
+
+    /**
+     * @var array
+     */
     protected $regexes = array(
-        '#^application/vnd\.(?P<zf_ver_vendor>[^.]+)\.v(?P<zf_ver_version>\d+)\.(?P<zf_ver_resource>[a-zA-Z0-9_-]+)$#',
+        '#^application/vnd\.(?P<zf_ver_vendor>[^.]+)\.v(?P<zf_ver_version>\d+)(?:\.(?P<zf_ver_resource>[a-zA-Z0-9_-]+))?(?:\+[a-z]+)?$#',
     );
 
     /**
@@ -62,14 +70,27 @@ class ContentTypeListener extends AbstractListenerAggregate
         }
 
         $headers = $request->getHeaders();
-        if (!$headers->has('content-type')) {
+        if (!$headers->has($this->headerName)) {
             return;
         }
 
-        $header = $headers->get('content-type');
-        $value  = $header->getFieldValue();
-        $parts  = explode(';', $value);
+        $header = $headers->get($this->headerName);
 
+        $matches = $this->parseHeaderForMatches($header->getFieldValue());
+        if (is_array($matches)) {
+            $this->injectRouteMatches($routeMatches, $matches);
+        }
+    }
+
+    /**
+     * Parse the header for matches against registered regexes
+     * 
+     * @param  string $value 
+     * @return false|array
+     */
+    protected function parseHeaderForMatches($value)
+    {
+        $parts = explode(';', $value);
         $contentType = array_shift($parts);
         $contentType = trim($contentType);
 
@@ -78,9 +99,10 @@ class ContentTypeListener extends AbstractListenerAggregate
                 continue;
             }
 
-            $this->injectRouteMatches($routeMatches, $matches);
-            break;
+            return $matches;
         }
+
+        return false;
     }
 
     /**
