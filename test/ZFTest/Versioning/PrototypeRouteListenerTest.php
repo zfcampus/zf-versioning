@@ -114,8 +114,8 @@ class PrototypeRouteListenerTest extends TestCase
             $this->assertEquals('\d+', $options['constraints']['version']);
 
             $this->assertArrayHasKey('defaults', $options);
-            $this->assertArrayHasKey('version', $options['constraints']);
-            $this->assertEquals(1, $options['constraints']['version']);
+            $this->assertArrayHasKey('version', $options['defaults']);
+            $this->assertEquals(1, $options['defaults']['version']);
         }
     }
 }
