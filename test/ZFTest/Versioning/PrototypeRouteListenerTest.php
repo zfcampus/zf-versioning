@@ -95,7 +95,7 @@ class PrototypeRouteListenerTest extends TestCase
         );
 
         if (!empty($apiVersion)) {
-            $this->config['zf-versioning']['default-version'] = $apiVersion;
+            $this->config['zf-versioning']['default_version'] = $apiVersion;
         } else {
             $apiVersion = 1;
         }

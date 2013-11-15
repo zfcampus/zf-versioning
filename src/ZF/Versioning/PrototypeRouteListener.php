@@ -79,8 +79,8 @@ class PrototypeRouteListener extends AbstractListenerAggregate
         }
 
         // Override default version of 1 with user-specified config value, if available.
-        if (isset($config['zf-versioning']['default-version'])) {
-            $this->versionRouteOptions['defaults']['version'] = $config['zf-versioning']['default-version'];
+        if (isset($config['zf-versioning']['default_version'])) {
+            $this->versionRouteOptions['defaults']['version'] = $config['zf-versioning']['default_version'];
         }
 
         // Pre-process route list to strip out duplicates (often a result of
