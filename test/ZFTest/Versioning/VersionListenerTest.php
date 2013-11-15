@@ -29,7 +29,7 @@ class VersionListenerTest extends TestCase
         $events->attach($this->listener);
         $listeners = $events->getListeners('route');
         $this->assertEquals(1, count($listeners));
-        $this->assertTrue($listeners->hasPriority(-1000));
+        $this->assertTrue($listeners->hasPriority(-41));
         $callback = $listeners->getIterator()->current()->getCallback();
         $test     = array_shift($callback);
         $this->assertSame($this->listener, $test);
