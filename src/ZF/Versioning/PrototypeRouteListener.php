@@ -22,7 +22,7 @@ class PrototypeRouteListener extends AbstractListenerAggregate
     protected $versionRoutePrefix = '[/v:version]';
 
     /**
-     * Constraints to introducde in versioned routes
+     * Constraints to introduce in versioned routes
      * 
      * @var array
      */
@@ -76,6 +76,11 @@ class PrototypeRouteListener extends AbstractListenerAggregate
             || empty($config['zf-versioning']['uri'])
         ) {
             return;
+        }
+
+        // Override default version of 1 with user-specified config value, if available.
+        if (isset($config['zf-versioning']['default_version'])) {
+            $this->versionRouteOptions['defaults']['version'] = $config['zf-versioning']['default_version'];
         }
 
         // Pre-process route list to strip out duplicates (often a result of

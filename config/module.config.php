@@ -15,6 +15,8 @@ return array(
             // Example:
             // '#^application/vendor\.(?P<vendor>mwop)\.v(?P<version>\d+)\.(?P<resource>status|user)$#',
         ),
+        // Default version number to use if none is provided by the API consumer. Default: 1
+        'default_version' => 1,
         'uri' => array(
             // Array of routes that should prepend the "zf-versioning" route 
             // (i.e., "/v:version"). Any route in this array will be chained to

@@ -7,7 +7,8 @@ Enables:
 
 - Prefixing defined routes with an optional `[/v:version]` segment, specifying a
   constraint of digits only for the version parameter, and defining a default
-  version of 1.
+  version of 1. Default can be overridden by modifying `[zf-versioning][default_version]`
+  in `module.config.php`.
 - Matching a default mediatype regular expression of `application/vnd.{api
   name}.v{version}(.{resource})?+json` in both Accept and Content-Type headers.
 - Injecting any discovered version parameters into the route matches.

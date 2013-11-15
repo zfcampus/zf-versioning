@@ -79,8 +79,8 @@ class PrototypeRouteListenerTest extends TestCase
     public function routesForWhichToVerifyPrototype()
     {
         return array(
-            'status' => array(array('status')),
-            'user'   => array(array('user')),
+            'status' => array(array('status'), 1),
+            'user'   => array(array('user'), 2),
             'both'   => array(array('status', 'user')),
         );
     }
@@ -88,9 +88,18 @@ class PrototypeRouteListenerTest extends TestCase
     /**
      * @dataProvider routesForWhichToVerifyPrototype
      */
-    public function testPrototypeAddedToRoutesProvidedToListener(array $routes)
+    public function testPrototypeAddedToRoutesProvidedToListener(array $routes, $apiVersion = null)
     {
-        $this->config['zf-versioning'] = array('uri' => $routes);
+        $this->config['zf-versioning'] = array(
+            'uri' => $routes
+        );
+
+        if (!empty($apiVersion)) {
+            $this->config['zf-versioning']['default_version'] = $apiVersion;
+        } else {
+            $apiVersion = 1;
+        }
+
         $this->configListener->setMergedConfig($this->config);
         $listener = new PrototypeRouteListener();
         $listener->onMergeConfig($this->event);
@@ -115,7 +124,7 @@ class PrototypeRouteListenerTest extends TestCase
 
             $this->assertArrayHasKey('defaults', $options);
             $this->assertArrayHasKey('version', $options['defaults']);
-            $this->assertEquals(1, $options['defaults']['version']);
+            $this->assertEquals($apiVersion, $options['defaults']['version']);
         }
     }
 }
