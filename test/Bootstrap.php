@@ -4,7 +4,7 @@
  * @copyright Copyright (c) 2013 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
-namespace ZFTest;
+namespace ZFTest\Versioning;
 
 use Zend\Loader\AutoloaderFactory;
 use RuntimeException;
@@ -49,8 +49,8 @@ class Bootstrap
                 'Zend\Loader\StandardAutoloader' => array(
                     'autoregister_zf' => true,
                     'namespaces' => array(
-                        'ZF\Versioning' => __DIR__ . '/../src/ZF/Hal/',
-                        __NAMESPACE__ => __DIR__ . '/' . __NAMESPACE__,
+                        'ZF\Versioning' => __DIR__ . '/../src/ZF/Versioning/',
+                        __NAMESPACE__ => __DIR__ . '/ZFTest/Versioning/',
                     ),
                 ),
             ));
