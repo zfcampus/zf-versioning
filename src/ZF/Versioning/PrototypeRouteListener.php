@@ -16,14 +16,14 @@ class PrototypeRouteListener extends AbstractListenerAggregate
 {
     /**
      * Match to prepend to versioned routes
-     * 
+     *
      * @var string
      */
     protected $versionRoutePrefix = '[/v:version]';
 
     /**
      * Constraints to introduce in versioned routes
-     * 
+     *
      * @var array
      */
     protected $versionRouteOptions = array(

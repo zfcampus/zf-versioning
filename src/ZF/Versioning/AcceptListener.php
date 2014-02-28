@@ -12,8 +12,8 @@ class AcceptListener extends ContentTypeListener
 
     /**
      * Parse the header for matches against registered regexes
-     * 
-     * @param  string $value 
+     *
+     * @param  string $value
      * @return false|array
      */
     protected function parseHeaderForMatches($value)

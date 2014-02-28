@@ -73,8 +73,8 @@ class VersionListener extends AbstractListenerAggregate
      * The route prototype sets "version", while the Content-Type listener sets
      * "zf_ver_version"; check both to obtain the version, giving priority to the
      * route prototype result.
-     * 
-     * @param  RouteMatch $routeMatches 
+     *
+     * @param  RouteMatch $routeMatches
      * @return int|false
      */
     protected function getVersionFromRouteMatch(RouteMatch $routeMatches)
