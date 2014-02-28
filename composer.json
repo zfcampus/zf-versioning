@@ -25,7 +25,7 @@
         }
     },
     "require": {
-        "php": ">=5.4.8",
+        "php": ">=5.3.23",
         "zendframework/zend-eventmanager": "~2.3-dev",
         "zendframework/zend-escaper": "~2.3-dev",
         "zendframework/zend-http": "~2.3-dev",
