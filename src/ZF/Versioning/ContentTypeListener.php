@@ -1,7 +1,7 @@
 <?php
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
 namespace ZF\Versioning;
@@ -85,8 +85,8 @@ class ContentTypeListener extends AbstractListenerAggregate
 
     /**
      * Parse the header for matches against registered regexes
-     * 
-     * @param  string $value 
+     *
+     * @param  string $value
      * @return false|array
      */
     protected function parseHeaderForMatches($value)

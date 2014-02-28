@@ -1,7 +1,7 @@
 <?php
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
 namespace ZF\Versioning;
@@ -16,14 +16,14 @@ class PrototypeRouteListener extends AbstractListenerAggregate
 {
     /**
      * Match to prepend to versioned routes
-     * 
+     *
      * @var string
      */
     protected $versionRoutePrefix = '[/v:version]';
 
     /**
      * Constraints to introduce in versioned routes
-     * 
+     *
      * @var array
      */
     protected $versionRouteOptions = array(
