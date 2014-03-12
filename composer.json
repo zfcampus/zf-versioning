@@ -26,20 +26,20 @@
     },
     "require": {
         "php": ">=5.3.23",
-        "zendframework/zend-eventmanager": "~2.3-dev",
-        "zendframework/zend-escaper": "~2.3-dev",
-        "zendframework/zend-http": "~2.3-dev",
-        "zendframework/zend-loader": "~2.3-dev",
-        "zendframework/zend-modulemanager": "~2.3-dev",
-        "zendframework/zend-mvc": "~2.3-dev",
-        "zendframework/zend-uri": "~2.3-dev",
-        "zendframework/zend-validator": "~2.3-dev"
+        "zendframework/zend-eventmanager": "~2.3",
+        "zendframework/zend-escaper": "~2.3",
+        "zendframework/zend-http": "~2.3",
+        "zendframework/zend-loader": "~2.3",
+        "zendframework/zend-modulemanager": "~2.3",
+        "zendframework/zend-mvc": "~2.3",
+        "zendframework/zend-uri": "~2.3",
+        "zendframework/zend-validator": "~2.3"
     },
     "require-dev": {
         "phpunit/PHPUnit": "3.7.*",
-        "zendframework/zend-config": "~2.3-dev",
-        "zendframework/zend-servicemanager": "~2.3-dev",
-        "zendframework/zend-stdlib": "~2.3-dev"
+        "zendframework/zend-config": "~2.3",
+        "zendframework/zend-servicemanager": "~2.3",
+        "zendframework/zend-stdlib": "~2.3"
     },
     "autoload": {
         "psr-0": {
