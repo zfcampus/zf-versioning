@@ -49,8 +49,8 @@ class Bootstrap
                 'Zend\Loader\StandardAutoloader' => array(
                     'autoregister_zf' => true,
                     'namespaces' => array(
-                        'ZF\Versioning' => __DIR__ . '/../src/ZF/Versioning/',
-                        __NAMESPACE__ => __DIR__ . '/ZFTest/Versioning/',
+                        'ZF\Versioning' => __DIR__ . '/../src/',
+                        __NAMESPACE__ => __DIR__,
                     ),
                 ),
             ));
