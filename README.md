@@ -1,6 +1,9 @@
 ZF Versioning
 =============
 
+[![Build Status](https://travis-ci.org/zfcampus/zf-versioning.png)](https://travis-ci.org/zfcampus/zf-versioning)
+[![Coverage Status](https://coveralls.io/repos/zfcampus/zf-versioning/badge.png?branch=master)](https://coveralls.io/r/zfcampus/zf-versioning)
+
 ZF2 module for automating versioned URLs and Accept/Content-Type mediatypes.
 
 Enables:
