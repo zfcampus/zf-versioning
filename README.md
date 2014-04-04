@@ -16,7 +16,11 @@ these controller service names will be updated with the currently matched versio
 Installation
 ------------
 
-Add the following to your `composer.json`, in the `require` section:
+Run the following `composer` command:
+
+    composer require "zfcampus/zf-versioning:~1.0-dev"
+
+Or, add the following to your `composer.json`, in the `require` section:
 
     "require": {
         "zfcampus/zf-versioning": "~1.0-dev"
@@ -122,7 +126,7 @@ ZF2 Events
 
 `zf-versioning` provides no new events, but does provide 4 distinct listeners:
 
-#### ZF\Versioning\PrototypeRouteListener #####
+#### `ZF\Versioning\PrototypeRouteListener` #####
 
 This listener is attached to `ModuleEvent::EVENT_MERGE_CONFIG`.  It is responsible for
 iterating the routes provided in the `zf-versioning` => `uri` configuration to look for
