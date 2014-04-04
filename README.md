@@ -61,13 +61,11 @@ All captured parts should utilize named parameters.  A more specific example, wi
 level key would look like:
 
 ```php
-return array(
-    'zf-versioning' => array(
-        'content-type' => array(
-            '#^application/vendor\.(?P<vendor>mwop)\.v(?P<version>\d+)\.(?P<resource>status|user)$#'
-        )
+'zf-versioning' => array(
+    'content-type' => array(
+        '#^application/vendor\.(?P<vendor>mwop)\.v(?P<version>\d+)\.(?P<resource>status|user)$#'
     )
-);
+)
 ```
 
 #### Key: `default_version` ####
@@ -78,11 +76,9 @@ the client.  `1` is the default for `default_version`.
 Full Example:
 
 ```php
-return array(
-    'zf-versioning' => array(
-        'default_version' => 1
-    )
-);
+'zf-versioning' => array(
+    'default_version' => 1
+)
 ```
 
 #### Key: `uri` ####
@@ -98,15 +94,13 @@ of digits only for the version parameter.
 Example:
 
 ```php
-return array(
-    'zf-versioning' => array(
-        'uri' => array(
-            'api',
-            'status',
-            'user'
-        )
+'zf-versioning' => array(
+    'uri' => array(
+        'api',
+        'status',
+        'user'
     )
-);
+)
 ```
 
 ### System Configuration ###
