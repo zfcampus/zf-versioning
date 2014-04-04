@@ -40,7 +40,7 @@ Configuration
 
 The top-level configuration key for user configuration of this module is `zf-versioning`
 
-#### `content-type` ####
+#### Key: `content-type` ####
 
 `content-type` key is used for specifying an array of named regular expressions that will be
 used in both parsing `Content-Type` and `Accept` headers for media-type based versioning
@@ -65,7 +65,7 @@ return array(
     )
 ```
 
-#### `default_version` ####
+#### Key: `default_version` ####
 
 `default_version` key is the default version number to use in case a version is not provided by
 the client.  `1` is the default for `default_version`.
@@ -79,7 +79,7 @@ return array(
     )
 ```
 
-#### `uri` ####
+#### Key: `uri` ####
 
 `uri` key is responsible for identifying which routes need to be prepended with route matching
 information for URL based versioning.  This key is an array of route names that is used in the
@@ -97,7 +97,7 @@ return array(
         'uri' => array(
             'api',
             'status',
-            'user
+            'user'
         )
     )
 );
