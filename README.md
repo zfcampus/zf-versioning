@@ -67,6 +67,7 @@ return array(
             '#^application/vendor\.(?P<vendor>mwop)\.v(?P<version>\d+)\.(?P<resource>status|user)$#'
         )
     )
+);
 ```
 
 #### Key: `default_version` ####
@@ -81,6 +82,7 @@ return array(
     'zf-versioning' => array(
         'default_version' => 1
     )
+);
 ```
 
 #### Key: `uri` ####
