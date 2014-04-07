@@ -65,7 +65,7 @@ also serve as an example of what kind of regex to create for more specific parsi
 '#^application/vnd\.(?P<zf_ver_vendor>[^.]+)\.v(?P<zf_ver_version>\d+)\.(?P<zf_ver_resource>[a-zA-Z0-9_-]+)$#'
 ```
 
-This rule ill match the following pseudo-code route:
+This rule will match the following pseudo-code route:
 
 ```
 application/vnd.{api name}.v{version}(.{resource})?+json
