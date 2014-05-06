@@ -7,7 +7,6 @@
 namespace ZFTest\Versioning;
 
 use PHPUnit_Framework_TestCase as TestCase;
-use ReflectionObject;
 use Zend\ModuleManager\Listener\ConfigListener;
 use Zend\ModuleManager\ModuleEvent;
 use ZF\Versioning\PrototypeRouteListener;
