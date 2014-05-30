@@ -12,6 +12,11 @@ that relates to versioning will be made available in the route match object.  In
 controller service name is utilizing a sub-namespace matching the regexp `V(\d)`, the matched
 controller service names will be updated with the currently matched version string.
 
+Requirements
+------------
+
+Please see the composer.json file.
+
 Installation
 ------------
 
