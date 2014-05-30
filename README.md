@@ -15,7 +15,7 @@ controller service names will be updated with the currently matched version stri
 Requirements
 ------------
 
-Please see the `composer.json` file.
+Please see the [composer.json](composer.json) file.
 
 Installation
 ------------
