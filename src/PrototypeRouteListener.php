@@ -105,8 +105,13 @@ class PrototypeRouteListener extends AbstractListenerAggregate
                 continue;
             }
 
-            $config['router']['routes'][$routeName]['options']['route'] = $this->versionRoutePrefix
-                . $config['router']['routes'][$routeName]['options']['route'];
+            if (false === strpos(
+                $config['router']['routes'][$routeName]['options']['route'],
+                $this->versionRoutePrefix
+            )) {
+                $config['router']['routes'][$routeName]['options']['route'] = $this->versionRoutePrefix
+                .$config['router']['routes'][$routeName]['options']['route'];
+            }
 
             $config['router']['routes'][$routeName]['options'] = ArrayUtils::merge(
                 $config['router']['routes'][$routeName]['options'],

@@ -35,6 +35,15 @@ class PrototypeRouteListenerTest extends TestCase
                         ),
                     ),
                 ),
+                'group' => array(
+                    'type' => 'Segment',
+                    'options' => array(
+                        'route' => '/group[/v:version][/:id]',
+                        'defaults' => array(
+                            'controller' => 'GroupController',
+                        ),
+                    ),
+                ),
             ),
         ));
         $this->configListener = new ConfigListener();
@@ -79,15 +88,16 @@ class PrototypeRouteListenerTest extends TestCase
     {
         return array(
             'status' => array(array('status'), 1),
-            'user'   => array(array('user'), 2),
-            'both'   => array(array('status', 'user')),
+            'user' => array(array('user'), 2),
+            'both' => array(array('status', 'user'), null),
+            'group' => array(array('group'), null, 6),
         );
     }
 
     /**
      * @dataProvider routesForWhichToVerifyPrototype
      */
-    public function testPrototypeAddedToRoutesProvidedToListener(array $routes, $apiVersion = null)
+    public function testPrototypeAddedToRoutesProvidedToListener(array $routes, $apiVersion = null, $position = 0)
     {
         $this->config['zf-versioning'] = array(
             'uri' => $routes
@@ -115,7 +125,7 @@ class PrototypeRouteListenerTest extends TestCase
             $options = $routeConfig['options'];
 
             $this->assertArrayHasKey('route', $options);
-            $this->assertSame(0, strpos($options['route'], '[/v:version]'));
+            $this->assertSame($position, strpos($options['route'], '[/v:version]'));
 
             $this->assertArrayHasKey('constraints', $options);
             $this->assertArrayHasKey('version', $options['constraints']);
