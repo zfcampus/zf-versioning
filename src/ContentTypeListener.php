@@ -19,12 +19,14 @@ class ContentTypeListener extends AbstractListenerAggregate
      */
     protected $headerName = 'content-type';
 
+    // @codingStandardsIgnoreStart
     /**
      * @var array
      */
     protected $regexes = array(
         '#^application/vnd\.(?P<zf_ver_vendor>[^.]+)\.v(?P<zf_ver_version>\d+)(?:\.(?P<zf_ver_resource>[a-zA-Z0-9_-]+))?(?:\+[a-z]+)?$#',
     );
+    // @codingStandardsIgnoreEnd
 
     /**
      * @param EventManagerInterface $events
