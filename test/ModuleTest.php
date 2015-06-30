@@ -82,8 +82,14 @@ class ModuleTest extends TestCase
     public function testOnBootstrapMethodRegistersListenersWithEventManager($factory)
     {
         $serviceConfig = $this->module->getServiceConfig();
-        $this->services->setFactory('ZF\Versioning\ContentTypeListener', $serviceConfig['factories']['ZF\Versioning\ContentTypeListener']);
-        $this->services->setFactory('ZF\Versioning\AcceptListener', $serviceConfig['factories']['ZF\Versioning\AcceptListener']);
+        $this->services->setFactory(
+            'ZF\Versioning\ContentTypeListener',
+            $serviceConfig['factories']['ZF\Versioning\ContentTypeListener']
+        );
+        $this->services->setFactory(
+            'ZF\Versioning\AcceptListener',
+            $serviceConfig['factories']['ZF\Versioning\AcceptListener']
+        );
         $this->services->setInvokableClass('ZF\Versioning\VersionListener', 'ZF\Versioning\VersionListener');
 
         $event = new MvcEvent();

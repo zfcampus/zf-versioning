@@ -138,7 +138,9 @@ class ContentTypeListenerTest extends TestCase
      */
     public function testWillInjectRouteMatchesWhenContentTypeMatchesCustomRegexp($header, $vendor, $version, $resource)
     {
-        $this->listener->addRegexp('#application/vendor\.(?<vendor>mwop)\.(?<version>\d+)\.(?<resource>(?:user|status))#');
+        $this->listener->addRegexp(
+            '#application/vendor\.(?<vendor>mwop)\.(?<version>\d+)\.(?<resource>(?:user|status))#'
+        );
 
         $request = $this->event->getRequest();
         $headers = $request->getHeaders();
