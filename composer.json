@@ -37,7 +37,7 @@
         "zendframework/zend-validator": ">=2.3,<2.5"
     },
     "require-dev": {
-        "phpunit/PHPUnit": "3.7.*",
+        "phpunit/phpunit": "~4.7",
         "zendframework/zend-config": ">=2.3,<2.5",
         "zendframework/zend-servicemanager": ">=2.3,<2.5",
         "zendframework/zend-stdlib": ">=2.3,<2.5",
@@ -45,11 +45,15 @@
     },
     "autoload": {
         "psr-4": {
-            "ZF\\Versioning\\": "src/",
-            "ZFTest\\Versioning\\": "test/"
+            "ZF\\Versioning\\": "src/"
         },
         "classmap": [
             "Module.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ZFTest\\Versioning\\": "test/"
+        }
     }
 }
