@@ -26,14 +26,14 @@ class PrototypeRouteListener extends AbstractListenerAggregate
      *
      * @var array
      */
-    protected $versionRouteOptions = array(
-        'defaults'    => array(
+    protected $versionRouteOptions = [
+        'defaults'    => [
             'version' => 1,
-        ),
-        'constraints' => array(
+        ],
+        'constraints' => [
             'version' => '\d+',
-        ),
-    );
+        ],
+    ];
 
     /**
      * Attach listener to ModuleEvent::EVENT_MERGE_CONFIG
@@ -42,7 +42,7 @@ class PrototypeRouteListener extends AbstractListenerAggregate
      */
     public function attach(EventManagerInterface $events)
     {
-        $this->listeners[] = $events->attach(ModuleEvent::EVENT_MERGE_CONFIG, array($this, 'onMergeConfig'));
+        $this->listeners[] = $events->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'onMergeConfig']);
     }
 
     /**
@@ -86,7 +86,7 @@ class PrototypeRouteListener extends AbstractListenerAggregate
         // Pre-process route list to strip out duplicates (often a result of
         // specifying nested routes)
         $routes   = $config['zf-versioning']['uri'];
-        $filtered = array();
+        $filtered = [];
         foreach ($routes as $index => $route) {
             if (strstr($route, '/')) {
                 $temp  = explode('/', $route, 2);

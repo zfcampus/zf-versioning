@@ -62,13 +62,13 @@ class ModuleTest extends TestCase
      */
     public function testServiceFactoryDefinedInModuleUsesConfigServiceWhenDefiningListener($factory)
     {
-        $config = array(
-            'zf-versioning' => array(
-                'content-type' => array(
+        $config = [
+            'zf-versioning' => [
+                'content-type' => [
                     '#^application/vendor\.(?P<vendor>mwop)\.(?P<resource>user|status)$#',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         $this->services->setService('config', $config);
 
         $listener = $factory($this->services);
@@ -101,17 +101,17 @@ class ModuleTest extends TestCase
         $this->assertEquals(3, count($listeners));
         $this->assertTrue($listeners->hasPriority(-40));
 
-        $test = array();
+        $test = [];
         foreach ($listeners as $listener) {
             $callback = $listener->getCallback();
             $test[]   = array_shift($callback);
         }
 
-        $expected = array(
+        $expected = [
             'ZF\Versioning\ContentTypeListener',
             'ZF\Versioning\AcceptListener',
             'ZF\Versioning\VersionListener',
-        );
+        ];
         foreach ($expected as $class) {
             $listener = $this->services->get($class);
             $this->assertContains($listener, $test);
@@ -120,7 +120,7 @@ class ModuleTest extends TestCase
 
     public function testInitMethodRegistersPrototypeListenerWithModuleEventManager()
     {
-        $moduleManager = new ModuleManager(array());
+        $moduleManager = new ModuleManager([]);
         $this->module->init($moduleManager);
 
         $events    = $moduleManager->getEventManager();

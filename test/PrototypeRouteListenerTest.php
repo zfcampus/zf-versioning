@@ -15,37 +15,37 @@ class PrototypeRouteListenerTest extends TestCase
 {
     public function setUp()
     {
-        $this->config = array('router' => array(
-            'routes' => array(
-                'status' => array(
+        $this->config = ['router' => [
+            'routes' => [
+                'status' => [
                     'type' => 'Segment',
-                    'options' => array(
+                    'options' => [
                         'route' => '/status[/:id]',
-                        'defaults' => array(
+                        'defaults' => [
                             'controller' => 'StatusController',
-                        ),
-                    ),
-                ),
-                'user' => array(
+                        ],
+                    ],
+                ],
+                'user' => [
                     'type' => 'Segment',
-                    'options' => array(
+                    'options' => [
                         'route' => '/user[/:id]',
-                        'defaults' => array(
+                        'defaults' => [
                             'controller' => 'UserController',
-                        ),
-                    ),
-                ),
-                'group' => array(
+                        ],
+                    ],
+                ],
+                'group' => [
                     'type' => 'Segment',
-                    'options' => array(
+                    'options' => [
                         'route' => '/group[/v:version][/:id]',
-                        'defaults' => array(
+                        'defaults' => [
                             'controller' => 'GroupController',
-                        ),
-                    ),
-                ),
-            ),
-        ));
+                        ],
+                    ],
+                ],
+            ],
+        ]];
         $this->configListener = new ConfigListener();
         $this->configListener->setMergedConfig($this->config);
         $this->event = new ModuleEvent();
@@ -55,12 +55,12 @@ class PrototypeRouteListenerTest extends TestCase
 
     public function routesWithoutPrototype()
     {
-        return array(
-            'none'   => array(array()),
-            'status' => array(array('status')),
-            'user'   => array(array('user')),
-            'both'   => array(array('status', 'user')),
-        );
+        return [
+            'none'   => [[]],
+            'status' => [['status']],
+            'user'   => [['user']],
+            'both'   => [['status', 'user']],
+        ];
     }
 
     /**
@@ -86,12 +86,12 @@ class PrototypeRouteListenerTest extends TestCase
 
     public function routesForWhichToVerifyPrototype()
     {
-        return array(
-            'status' => array(array('status'), 1),
-            'user' => array(array('user'), 2),
-            'both' => array(array('status', 'user'), null),
-            'group' => array(array('group'), null, 6),
-        );
+        return [
+            'status' => [['status'], 1],
+            'user' => [['user'], 2],
+            'both' => [['status', 'user'], null],
+            'group' => [['group'], null, 6],
+        ];
     }
 
     /**
@@ -99,9 +99,9 @@ class PrototypeRouteListenerTest extends TestCase
      */
     public function testPrototypeAddedToRoutesProvidedToListener(array $routes, $apiVersion = null, $position = 0)
     {
-        $this->config['zf-versioning'] = array(
+        $this->config['zf-versioning'] = [
             'uri' => $routes
-        );
+        ];
 
         if (!empty($apiVersion)) {
             $this->config['zf-versioning']['default_version'] = $apiVersion;
