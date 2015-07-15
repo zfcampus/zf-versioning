@@ -19,7 +19,7 @@ class ContentTypeListenerTest extends TestCase
     {
         $this->event = new MvcEvent();
         $this->event->setRequest(new Request());
-        $this->event->setRouteMatch(new RouteMatch(array()));
+        $this->event->setRouteMatch(new RouteMatch([]));
 
         $this->listener = new ContentTypeListener();
     }
@@ -46,7 +46,7 @@ class ContentTypeListenerTest extends TestCase
     public function testDoesNothingIfNoRequestPresentInEvent()
     {
         $event = new MvcEvent();
-        $event->setRouteMatch(new RouteMatch(array()));
+        $event->setRouteMatch(new RouteMatch([]));
         $this->assertNull($this->listener->onRoute($event));
     }
 
@@ -57,20 +57,20 @@ class ContentTypeListenerTest extends TestCase
 
     public function validDefaultContentTypes()
     {
-        return array(
-            array(
+        return [
+            [
                 'application/vnd.mwop.v1.status',
                 'mwop',
                 1,
                 'status',
-            ),
-            array(
+            ],
+            [
                 'application/vnd.zend.v2.user',
                 'zend',
                 2,
                 'user',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -91,12 +91,12 @@ class ContentTypeListenerTest extends TestCase
 
     public function invalidDefaultContentTypes()
     {
-        return array(
-            'bad-prefix'                   => array('application/vendor.mwop.v1.status'),
-            'bad-version'                  => array('application/vnd.zend.2.user'),
-            'missing-version'              => array('application/vnd.zend.user'),
-            'missing-version-and-resource' => array('application/vnd.zend'),
-        );
+        return [
+            'bad-prefix'                   => ['application/vendor.mwop.v1.status'],
+            'bad-version'                  => ['application/vnd.zend.2.user'],
+            'missing-version'              => ['application/vnd.zend.user'],
+            'missing-version-and-resource' => ['application/vnd.zend'],
+        ];
     }
 
     /**
@@ -117,20 +117,20 @@ class ContentTypeListenerTest extends TestCase
 
     public function validCustomContentTypes()
     {
-        return array(
-            array(
+        return [
+            [
                 'application/vendor.mwop.1.status',
                 'mwop',
                 1,
                 'status',
-            ),
-            array(
+            ],
+            [
                 'application/vendor.mwop.2.user',
                 'mwop',
                 2,
                 'user',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -155,24 +155,24 @@ class ContentTypeListenerTest extends TestCase
 
     public function mixedContentTypes()
     {
-        return array(
-            'default' => array(
+        return [
+            'default' => [
                 'application/vnd.mwop.v1.status',
-                array(
+                [
                     'zf_ver_vendor'   => 'mwop',
                     'zf_ver_version'  => 1,
                     'zf_ver_resource' => 'status',
-                ),
-            ),
-            'custom' => array(
+                ],
+            ],
+            'custom' => [
                 'application/vnd.mwop.1.status',
-                array(
+                [
                     'vendor'   => 'mwop',
                     'version'  => 1,
                     'resource' => 'status',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**

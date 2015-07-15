@@ -17,7 +17,7 @@ class VersionListenerTest extends TestCase
     public function setUp()
     {
         $this->event = new MvcEvent();
-        $this->event->setRouteMatch(new RouteMatch(array()));
+        $this->event->setRouteMatch(new RouteMatch([]));
 
         $this->listener = new VersionListener();
     }
