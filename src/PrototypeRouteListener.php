@@ -61,7 +61,7 @@ class PrototypeRouteListener extends AbstractListenerAggregate
             return;
         }
 
-        $config = $configListener->getMergedConfig(FALSE);
+        $config = $configListener->getMergedConfig(false);
 
         // Check for config keys
         if (!isset($config['zf-versioning'])
