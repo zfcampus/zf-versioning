@@ -111,10 +111,7 @@ class PrototypeRouteListener extends AbstractListenerAggregate
                 $key = 'route';
             }
 
-            if (FALSE === strpos(
-                    $config['router']['routes'][$routeName]['options'][$key],
-                    $this->versionRoutePrefix
-                )
+            if (false === strpos($config['router']['routes'][$routeName]['options'][$key], $this->versionRoutePrefix)
             ) {
                 $config['router']['routes'][$routeName]['options']['route'] = $this->versionRoutePrefix
                     . $config['router']['routes'][$routeName]['options'][$key];
