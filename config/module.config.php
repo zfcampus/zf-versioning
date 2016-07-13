@@ -1,12 +1,17 @@
 <?php
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
-return array(
-    'zf-versioning' => array(
-        'content-type' => array(
+namespace ZF\Versioning;
+
+use Zend\ServiceManager\Factory\InvokableFactory;
+
+return [
+    'zf-versioning' => [
+        'content-type' => [
+            // @codingStandardsIgnoreStart
             // Array of regular expressions to apply against the content-type
             // header. All capturing expressions should be named:
             // (?P<name_to_capture>expression)
@@ -14,10 +19,11 @@ return array(
             //
             // Example:
             // '#^application/vendor\.(?P<vendor>mwop)\.v(?P<version>\d+)\.(?P<resource>status|user)$#',
-        ),
+            // @codingStandardsIgnoreEnd
+        ],
         // Default version number to use if none is provided by the API consumer. Default: 1
         'default_version' => 1,
-        'uri' => array(
+        'uri' => [
             // Array of routes that should prepend the "zf-versioning" route
             // (i.e., "/v:version"). Any route in this array will be chained to
             // that route, but can still be referenced by their route name.
@@ -29,11 +35,13 @@ return array(
             //     "api", "status", "user"
             //
             // would chain the above named routes, and version them.
-        ),
-    ),
-    'service_manager' => array(
-        'invokables' => array(
-            'ZF\Versioning\VersionListener' => 'ZF\Versioning\VersionListener',
-        ),
-    ),
-);
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
+            AcceptListener::class => Factory\AcceptListenerFactory::class,
+            ContentTypeListener::class => Factory\ContentTypeListenerFactory::class,
+            VersionListener::class => InvokableFactory::class,
+        ],
+    ],
+];

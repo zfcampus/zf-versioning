@@ -6,18 +6,21 @@
 
 namespace ZF\Versioning;
 
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
-use Zend\Http\Request as HttpRequest;
+use Zend\EventManager\ListenerAggregateInterface;
+use Zend\EventManager\ListenerAggregateTrait;
 use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Router\RouteMatch;
+use Zend\Mvc\Router\RouteMatch as V2RouteMatch;
+use Zend\Router\RouteMatch;
 
-class VersionListener extends AbstractListenerAggregate
+class VersionListener implements ListenerAggregateInterface
 {
+    use ListenerAggregateTrait;
+
     /**
-     * @param EventManagerInterface $events
+     * {@inheritDoc}
      */
-    public function attach(EventManagerInterface $events)
+    public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_ROUTE, [$this, 'onRoute'], -41);
     }
@@ -29,32 +32,25 @@ class VersionListener extends AbstractListenerAggregate
      */
     public function onRoute(MvcEvent $e)
     {
-        $request = $e->getRequest();
-        if ($request instanceof HttpRequest
-            && $request->isOptions()
-        ) {
-            return;
-        }
-
         $routeMatches = $e->getRouteMatch();
-        if (!$routeMatches instanceof RouteMatch) {
+        if (! ($routeMatches instanceof RouteMatch || $routeMatches instanceof V2RouteMatch)) {
             return;
         }
 
         $version = $this->getVersionFromRouteMatch($routeMatches);
-        if (!$version) {
+        if (! $version) {
             // No version found in matches; done
             return;
         }
 
         $controller = $routeMatches->getParam('controller', false);
-        if (!$controller) {
+        if (! $controller) {
             // no controller; we have bigger problems!
             return;
         }
 
         $pattern = '#' . preg_quote('\V') . '(\d+)' . preg_quote('\\') . '#';
-        if (!preg_match($pattern, $controller, $matches)) {
+        if (! preg_match($pattern, $controller, $matches)) {
             // controller does not have a version subnamespace
             return;
         }
@@ -74,10 +70,10 @@ class VersionListener extends AbstractListenerAggregate
      * "zf_ver_version"; check both to obtain the version, giving priority to the
      * route prototype result.
      *
-     * @param  RouteMatch $routeMatches
+     * @param  RouteMatch|V2RouteMatch $routeMatches
      * @return int|false
      */
-    protected function getVersionFromRouteMatch(RouteMatch $routeMatches)
+    protected function getVersionFromRouteMatch($routeMatches)
     {
         $version = $routeMatches->getParam('zf_ver_version', false);
         if ($version) {

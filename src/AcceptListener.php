@@ -1,13 +1,17 @@
 <?php
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
 namespace ZF\Versioning;
 
 class AcceptListener extends ContentTypeListener
 {
+    /**
+     * Header to examine.
+     * @var string
+     */
     protected $headerName = 'accept';
 
     /**
@@ -27,7 +31,7 @@ class AcceptListener extends ContentTypeListener
             $mediaType = array_shift($params);
 
             foreach (array_reverse($this->regexes) as $regex) {
-                if (!preg_match($regex, $mediaType, $matches)) {
+                if (! preg_match($regex, $mediaType, $matches)) {
                     continue;
                 }
 
