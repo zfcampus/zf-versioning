@@ -12,6 +12,11 @@ namespace ZF\Versioning;
 class Module
 {
     /**
+     * @var PrototypeRouteListener
+     */
+    private $prototypeRouteListener;
+
+    /**
      * Retrieve module configuration
      *
      * @return array
@@ -21,55 +26,28 @@ class Module
         return include __DIR__ . '/../config/module.config.php';
     }
 
-    public function getServiceConfig()
-    {
-        return array('factories' => array(
-            'ZF\Versioning\AcceptListener' => function ($services) {
-                $config = [];
-                if ($services->has('config')) {
-                    $allConfig = $services->get('config');
-                    if (isset($allConfig['zf-versioning'])
-                        && isset($allConfig['zf-versioning']['content-type'])
-                        && is_array($allConfig['zf-versioning']['content-type'])
-                    ) {
-                        $config = $allConfig['zf-versioning']['content-type'];
-                    }
-                }
-
-                $listener = new AcceptListener();
-                foreach ($config as $regexp) {
-                    $listener->addRegexp($regexp);
-                }
-                return $listener;
-            },
-            'ZF\Versioning\ContentTypeListener' => function ($services) {
-                $config = [];
-                if ($services->has('config')) {
-                    $allConfig = $services->get('config');
-                    if (isset($allConfig['zf-versioning'])
-                        && isset($allConfig['zf-versioning']['content-type'])
-                        && is_array($allConfig['zf-versioning']['content-type'])
-                    ) {
-                        $config = $allConfig['zf-versioning']['content-type'];
-                    }
-                }
-
-                $listener = new ContentTypeListener();
-                foreach ($config as $regexp) {
-                    $listener->addRegexp($regexp);
-                }
-                return $listener;
-            },
-        ));
-    }
-
+    /**
+     * Listen to ModuleManager init event.
+     *
+     * Attaches a PrototypeRouteListener to the module manager event manager.
+     *
+     * @param \Zend\ModuleManager\ModuleManager
+     * @return void
+     */
     public function init($moduleManager)
     {
-        $events = $moduleManager->getEventManager();
-        $prototypeRouteListener = new PrototypeRouteListener();
-        $prototypeRouteListener->attach($events);
+        $this->getPrototypeRouteListener()->attach($moduleManager->getEventManager());
     }
 
+    /**
+     * Listen to zend-mvc bootstrap event.
+     *
+     * Attaches each of the Accept, ContentType, and Version listeners to the
+     * application event manager.
+     *
+     * @param \Zend\Mvc\MvcEvent
+     * @return void
+     */
     public function onBootstrap($e)
     {
         $app      = $e->getTarget();
@@ -78,5 +56,22 @@ class Module
         $services->get('ZF\Versioning\AcceptListener')->attach($events);
         $services->get('ZF\Versioning\ContentTypeListener')->attach($events);
         $services->get('ZF\Versioning\VersionListener')->attach($events);
+    }
+
+    /**
+     * Return the prototype route listener instance.
+     *
+     * Lazy-instantiates an instance if none previously registered.
+     *
+     * @return PrototypeRouteListener
+     */
+    public function getPrototypeRouteListener()
+    {
+        if ($this->prototypeRouteListener) {
+            return $this->prototypeRouteListener;
+        }
+
+        $this->prototypeRouteListener = new PrototypeRouteListener();
+        return $this->prototypeRouteListener;
     }
 }

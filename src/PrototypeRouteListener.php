@@ -1,21 +1,24 @@
 <?php
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
 namespace ZF\Versioning;
 
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\ListenerAggregateInterface;
+use Zend\EventManager\ListenerAggregateTrait;
 use Zend\ModuleManager\Listener\ConfigListener;
 use Zend\ModuleManager\ModuleEvent;
 use Zend\Stdlib\ArrayUtils;
 
-class PrototypeRouteListener extends AbstractListenerAggregate
+class PrototypeRouteListener implements ListenerAggregateInterface
 {
+    use ListenerAggregateTrait;
+
     /**
-     * Match to prepend to versioned routes
+     * Match to prepend to versioned routes.
      *
      * @var string
      */
@@ -38,9 +41,10 @@ class PrototypeRouteListener extends AbstractListenerAggregate
     /**
      * Attach listener to ModuleEvent::EVENT_MERGE_CONFIG
      *
-     * @param  EventManagerInterface $events
+     * @param EventManagerInterface $events
+     * @param int $priority
      */
-    public function attach(EventManagerInterface $events)
+    public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'onMergeConfig']);
     }
@@ -57,22 +61,22 @@ class PrototypeRouteListener extends AbstractListenerAggregate
     public function onMergeConfig(ModuleEvent $e)
     {
         $configListener = $e->getConfigListener();
-        if (!$configListener instanceof ConfigListener) {
+        if (! $configListener instanceof ConfigListener) {
             return;
         }
 
         $config = $configListener->getMergedConfig(false);
 
         // Check for config keys
-        if (!isset($config['zf-versioning'])
-            || !isset($config['router'])
+        if (! isset($config['zf-versioning'])
+            || ! isset($config['router'])
         ) {
             return;
         }
 
         // Do we need to inject a prototype?
-        if (!isset($config['zf-versioning']['uri'])
-            || !is_array($config['zf-versioning']['uri'])
+        if (! isset($config['zf-versioning']['uri'])
+            || ! is_array($config['zf-versioning']['uri'])
             || empty($config['zf-versioning']['uri'])
         ) {
             return;
@@ -101,7 +105,7 @@ class PrototypeRouteListener extends AbstractListenerAggregate
 
         // Inject chained routes
         foreach ($routes as $routeName) {
-            if (!isset($config['router']['routes'][$routeName])) {
+            if (! isset($config['router']['routes'][$routeName])) {
                 continue;
             }
 
@@ -110,7 +114,7 @@ class PrototypeRouteListener extends AbstractListenerAggregate
                 $this->versionRoutePrefix
             )) {
                 $config['router']['routes'][$routeName]['options']['route'] = $this->versionRoutePrefix
-                .$config['router']['routes'][$routeName]['options']['route'];
+                    . $config['router']['routes'][$routeName]['options']['route'];
             }
 
             $config['router']['routes'][$routeName]['options'] = ArrayUtils::merge(

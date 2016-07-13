@@ -8,18 +8,21 @@ namespace ZFTest\Versioning;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\EventManager\EventManager;
+use Zend\EventManager\Test\EventListenerIntrospectionTrait;
 use Zend\Http\Request;
 use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Router\RouteMatch;
 use ZF\Versioning\ContentTypeListener;
 
 class ContentTypeListenerTest extends TestCase
 {
+    use EventListenerIntrospectionTrait;
+    use RouteMatchFactoryTrait;
+
     public function setUp()
     {
         $this->event = new MvcEvent();
         $this->event->setRequest(new Request());
-        $this->event->setRouteMatch(new RouteMatch([]));
+        $this->event->setRouteMatch($this->createRouteMatch([]));
 
         $this->listener = new ContentTypeListener();
     }
@@ -27,13 +30,14 @@ class ContentTypeListenerTest extends TestCase
     public function testAttachesToRouteEventAtNegativePriority()
     {
         $events = new EventManager();
-        $events->attach($this->listener);
-        $listeners = $events->getListeners('route');
-        $this->assertEquals(1, count($listeners));
-        $this->assertTrue($listeners->hasPriority(-40));
-        $callback = $listeners->getIterator()->current()->getCallback();
-        $test     = array_shift($callback);
-        $this->assertSame($this->listener, $test);
+        $this->listener->attach($events);
+
+        $this->assertListenerAtPriority(
+            [$this->listener, 'onRoute'],
+            -40,
+            MvcEvent::EVENT_ROUTE,
+            $events
+        );
     }
 
     public function testDoesNothingIfNoRouteMatchPresentInEvent()
@@ -46,7 +50,7 @@ class ContentTypeListenerTest extends TestCase
     public function testDoesNothingIfNoRequestPresentInEvent()
     {
         $event = new MvcEvent();
-        $event->setRouteMatch(new RouteMatch([]));
+        $event->setRouteMatch($this->createRouteMatch([]));
         $this->assertNull($this->listener->onRoute($event));
     }
 
