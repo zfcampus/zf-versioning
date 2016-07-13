@@ -24,4 +24,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#15](https://github.com/zfcampus/zf-versioning/pull/15) fixes the
+  `VersionListener` to no longer ignore OPTIONS requests when determining
+  versioning information provided by the client. Previously, such requests were
+  ignored, effectively locking OPTIONS requests to v1 of an API.
