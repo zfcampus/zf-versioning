@@ -9,7 +9,6 @@ namespace ZF\Versioning;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\ListenerAggregateTrait;
-use Zend\Http\Request as HttpRequest;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\RouteMatch as V2RouteMatch;
 use Zend\Router\RouteMatch;
@@ -33,13 +32,6 @@ class VersionListener implements ListenerAggregateInterface
      */
     public function onRoute(MvcEvent $e)
     {
-        $request = $e->getRequest();
-        if ($request instanceof HttpRequest
-            && $request->isOptions()
-        ) {
-            return;
-        }
-
         $routeMatches = $e->getRouteMatch();
         if (! ($routeMatches instanceof RouteMatch || $routeMatches instanceof V2RouteMatch)) {
             return;
