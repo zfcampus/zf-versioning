@@ -7,7 +7,7 @@
 namespace ZF\Versioning;
 
 /**
- * ZF2 module
+ * Zend Framework module
  */
 class Module
 {
