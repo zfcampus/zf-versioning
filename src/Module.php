@@ -31,7 +31,7 @@ class Module
      *
      * Attaches a PrototypeRouteListener to the module manager event manager.
      *
-     * @param \Zend\ModuleManager\ModuleManager
+     * @param \Zend\ModuleManager\ModuleManager $moduleManager
      * @return void
      */
     public function init($moduleManager)
@@ -45,7 +45,7 @@ class Module
      * Attaches each of the Accept, ContentType, and Version listeners to the
      * application event manager.
      *
-     * @param \Zend\Mvc\MvcEvent
+     * @param \Zend\Mvc\MvcEvent $e
      * @return void
      */
     public function onBootstrap($e)
