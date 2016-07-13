@@ -1,7 +1,7 @@
 <?php
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
 namespace ZF\Versioning;
@@ -12,34 +12,22 @@ namespace ZF\Versioning;
 class Module
 {
     /**
-     * Retrieve autoloader configuration
-     *
-     * @return array
-     */
-    public function getAutoloaderConfig()
-    {
-        return array('Zend\Loader\StandardAutoloader' => array('namespaces' => array(
-            __NAMESPACE__ => __DIR__ . '/src/',
-        )));
-    }
-
-    /**
      * Retrieve module configuration
      *
      * @return array
      */
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        return include __DIR__ . '/../config/module.config.php';
     }
 
     public function getServiceConfig()
     {
         return array('factories' => array(
             'ZF\Versioning\AcceptListener' => function ($services) {
-                $config = array();
-                if ($services->has('Config')) {
-                    $allConfig = $services->get('Config');
+                $config = [];
+                if ($services->has('config')) {
+                    $allConfig = $services->get('config');
                     if (isset($allConfig['zf-versioning'])
                         && isset($allConfig['zf-versioning']['content-type'])
                         && is_array($allConfig['zf-versioning']['content-type'])
@@ -55,9 +43,9 @@ class Module
                 return $listener;
             },
             'ZF\Versioning\ContentTypeListener' => function ($services) {
-                $config = array();
-                if ($services->has('Config')) {
-                    $allConfig = $services->get('Config');
+                $config = [];
+                if ($services->has('config')) {
+                    $allConfig = $services->get('config');
                     if (isset($allConfig['zf-versioning'])
                         && isset($allConfig['zf-versioning']['content-type'])
                         && is_array($allConfig['zf-versioning']['content-type'])
@@ -79,7 +67,7 @@ class Module
     {
         $events = $moduleManager->getEventManager();
         $prototypeRouteListener = new PrototypeRouteListener();
-        $events->attach($prototypeRouteListener);
+        $prototypeRouteListener->attach($events);
     }
 
     public function onBootstrap($e)
@@ -87,8 +75,8 @@ class Module
         $app      = $e->getTarget();
         $events   = $app->getEventManager();
         $services = $app->getServiceManager();
-        $events->attach($services->get('ZF\Versioning\AcceptListener'));
-        $events->attach($services->get('ZF\Versioning\ContentTypeListener'));
-        $events->attach($services->get('ZF\Versioning\VersionListener'));
+        $services->get('ZF\Versioning\AcceptListener')->attach($events);
+        $services->get('ZF\Versioning\ContentTypeListener')->attach($events);
+        $services->get('ZF\Versioning\VersionListener')->attach($events);
     }
 }

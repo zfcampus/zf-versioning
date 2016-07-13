@@ -16,9 +16,6 @@
         "source": "https://github.com/zfcampus/zf-versioning",
         "issues": "https://github.com/zfcampus/zf-versioning/issues"
     },
-    "repositories": [
-        { "type": "composer", "url": "https://packages.zendframework.com" }
-    ],
     "extra": {
         "branch-alias": {
             "dev-master": "1.1-dev",
@@ -26,34 +23,35 @@
         }
     },
     "require": {
-        "php": ">=5.5",
-        "zendframework/zend-eventmanager": "~2.3",
-        "zendframework/zend-escaper": "~2.3",
-        "zendframework/zend-http": "~2.3",
-        "zendframework/zend-loader": "~2.3",
-        "zendframework/zend-modulemanager": "~2.3",
-        "zendframework/zend-mvc": "~2.3",
-        "zendframework/zend-uri": "~2.3",
-        "zendframework/zend-validator": "~2.3"
+        "php": "^5.6 || ^7.0",
+        "zendframework/zend-eventmanager": "^2.6.3 || ^3.0.1",
+        "zendframework/zend-http": "^2.5.4",
+        "zendframework/zend-modulemanager": "^2.7.2",
+        "zendframework/zend-mvc": "^2.7.9 || ^3.0.2",
+        "zendframework/zend-stdlib": "^2.7.7 || ^3.0.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.7",
-        "zendframework/zend-config": "~2.3",
-        "zendframework/zend-servicemanager": "~2.3",
-        "zendframework/zend-stdlib": "~2.3",
+        "phpunit/phpunit": "^4.8 || ^5.0",
+        "zendframework/zend-servicemanager": "^2.7.6 || ^3.1",
         "squizlabs/php_codesniffer": "^2.3.1"
     },
     "autoload": {
         "psr-4": {
             "ZF\\Versioning\\": "src/"
-        },
-        "classmap": [
-            "Module.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
             "ZFTest\\Versioning\\": "test/"
         }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit"
     }
 }
