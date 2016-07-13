@@ -8,15 +8,22 @@ namespace ZFTest\Versioning;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\EventManager\EventManager;
+use Zend\EventManager\Test\EventListenerIntrospectionTrait;
 use Zend\ModuleManager\ModuleEvent;
 use Zend\ModuleManager\ModuleManager;
 use Zend\Mvc\MvcEvent;
+use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ServiceManager;
+use ZF\Versioning\AcceptListener;
 use ZF\Versioning\ContentTypeListener;
 use ZF\Versioning\Module;
+use ZF\Versioning\PrototypeRouteListener;
+use ZF\Versioning\VersionListener;
 
 class ModuleTest extends TestCase
 {
+    use EventListenerIntrospectionTrait;
+
     public function setUp()
     {
         $this->app = new TestAsset\Application();
@@ -28,93 +35,31 @@ class ModuleTest extends TestCase
         $this->module = new Module();
     }
 
-    public function testModuleDefinesServiceForContentTypeListener()
+    public function testOnBootstrapMethodRegistersListenersWithEventManager()
     {
-        $config = $this->module->getServiceConfig();
-        $this->assertArrayHasKey('factories', $config);
-        $this->assertArrayHasKey('ZF\Versioning\ContentTypeListener', $config['factories']);
-        $this->assertInstanceOf('Closure', $config['factories']['ZF\Versioning\ContentTypeListener']);
-        return $config['factories']['ZF\Versioning\ContentTypeListener'];
-    }
-
-    /**
-     * @depends testModuleDefinesServiceForContentTypeListener
-     */
-    public function testModuleDefinesServiceForAcceptListener($factory)
-    {
-        $config = $this->module->getServiceConfig();
-        $this->assertArrayHasKey('factories', $config);
-        $this->assertArrayHasKey('ZF\Versioning\AcceptListener', $config['factories']);
-        $this->assertInstanceOf('Closure', $config['factories']['ZF\Versioning\AcceptListener']);
-    }
-
-    /**
-     * @depends testModuleDefinesServiceForContentTypeListener
-     */
-    public function testServiceFactoryDefinedInModuleReturnsListener($factory)
-    {
-        $listener = $factory($this->services);
-        $this->assertInstanceOf('ZF\Versioning\ContentTypeListener', $listener);
-    }
-
-    /**
-     * @depends testModuleDefinesServiceForContentTypeListener
-     */
-    public function testServiceFactoryDefinedInModuleUsesConfigServiceWhenDefiningListener($factory)
-    {
-        $config = [
-            'zf-versioning' => [
-                'content-type' => [
-                    '#^application/vendor\.(?P<vendor>mwop)\.(?P<resource>user|status)$#',
-                ],
-            ],
-        ];
-        $this->services->setService('config', $config);
-
-        $listener = $factory($this->services);
-        $this->assertInstanceOf('ZF\Versioning\ContentTypeListener', $listener);
-        $this->assertAttributeContains($config['zf-versioning']['content-type'][0], 'regexes', $listener);
-    }
-
-    /**
-     * @depends testModuleDefinesServiceForContentTypeListener
-     */
-    public function testOnBootstrapMethodRegistersListenersWithEventManager($factory)
-    {
-        $serviceConfig = $this->module->getServiceConfig();
-        $this->services->setFactory(
-            'ZF\Versioning\ContentTypeListener',
-            $serviceConfig['factories']['ZF\Versioning\ContentTypeListener']
-        );
-        $this->services->setFactory(
-            'ZF\Versioning\AcceptListener',
-            $serviceConfig['factories']['ZF\Versioning\AcceptListener']
-        );
-        $this->services->setInvokableClass('ZF\Versioning\VersionListener', 'ZF\Versioning\VersionListener');
+        $config = include __DIR__ . '/../config/module.config.php';
+        (new Config($config['service_manager']))->configureServiceManager($this->services);
 
         $event = new MvcEvent();
         $event->setTarget($this->app);
 
         $this->module->onBootstrap($event);
 
-        $listeners = $this->events->getListeners(MvcEvent::EVENT_ROUTE);
-        $this->assertEquals(3, count($listeners));
-        $this->assertTrue($listeners->hasPriority(-40));
-
-        $test = [];
-        foreach ($listeners as $listener) {
-            $callback = $listener->getCallback();
-            $test[]   = array_shift($callback);
-        }
-
-        $expected = [
-            'ZF\Versioning\ContentTypeListener',
-            'ZF\Versioning\AcceptListener',
-            'ZF\Versioning\VersionListener',
+        $listeners = [
+            ContentTypeListener::class => -40,
+            AcceptListener::class => -40,
+            VersionListener::class => -41,
         ];
-        foreach ($expected as $class) {
+
+        foreach ($listeners as $class => $priority) {
             $listener = $this->services->get($class);
-            $this->assertContains($listener, $test);
+            $this->assertListenerAtPriority(
+                [$listener, 'onRoute'],
+                $priority,
+                MvcEvent::EVENT_ROUTE,
+                $this->events,
+                sprintf('Listener %s at priority %s was not registered', $class, $priority)
+            );
         }
     }
 
@@ -123,12 +68,15 @@ class ModuleTest extends TestCase
         $moduleManager = new ModuleManager([]);
         $this->module->init($moduleManager);
 
-        $events    = $moduleManager->getEventManager();
-        $listeners = $events->getListeners(ModuleEvent::EVENT_MERGE_CONFIG);
-        $this->assertEquals(1, count($listeners));
-        $this->assertTrue($listeners->hasPriority(1));
-        $callback = $listeners->getIterator()->current()->getCallback();
-        $test     = array_shift($callback);
-        $this->assertInstanceOf('ZF\Versioning\PrototypeRouteListener', $test);
+        $listener = $this->module->getPrototypeRouteListener();
+        $this->assertInstanceOf(PrototypeRouteListener::class, $listener);
+
+        $events = $moduleManager->getEventManager();
+        $this->assertListenerAtPriority(
+            [$listener, 'onMergeConfig'],
+            1,
+            ModuleEvent::EVENT_MERGE_CONFIG,
+            $events
+        );
     }
 }

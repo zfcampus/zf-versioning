@@ -1,20 +1,25 @@
 <?php
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
 namespace ZF\Versioning;
 
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\ListenerAggregateInterface;
+use Zend\EventManager\ListenerAggregateTrait;
 use Zend\Http\Request;
 use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Router\RouteMatch;
+use Zend\Mvc\Router\RouteMatch as V2RouteMatch;
+use Zend\Router\RouteMatch;
 
-class ContentTypeListener extends AbstractListenerAggregate
+class ContentTypeListener implements ListenerAggregateInterface
 {
+    use ListenerAggregateTrait;
+
     /**
+     * Header to examine.
      * @var string
      */
     protected $headerName = 'content-type';
@@ -23,15 +28,15 @@ class ContentTypeListener extends AbstractListenerAggregate
     /**
      * @var array
      */
-    protected $regexes = array(
+    protected $regexes = [
         '#^application/vnd\.(?P<zf_ver_vendor>[^.]+)\.v(?P<zf_ver_version>\d+)(?:\.(?P<zf_ver_resource>[a-zA-Z0-9_-]+))?(?:\+[a-z]+)?$#',
-    );
+    ];
     // @codingStandardsIgnoreEnd
 
     /**
-     * @param EventManagerInterface $events
+     * {@inheritDoc}
      */
-    public function attach(EventManagerInterface $events)
+    public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_ROUTE, [$this, 'onRoute'], -40);
     }
@@ -44,7 +49,7 @@ class ContentTypeListener extends AbstractListenerAggregate
      */
     public function addRegexp($regex)
     {
-        if (!is_string($regex)) {
+        if (! is_string($regex)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects a string regular expression as an argument; received %s',
                 __METHOD__,
@@ -63,17 +68,17 @@ class ContentTypeListener extends AbstractListenerAggregate
     public function onRoute(MvcEvent $e)
     {
         $routeMatches = $e->getRouteMatch();
-        if (!$routeMatches instanceof RouteMatch) {
+        if (! ($routeMatches instanceof RouteMatch || $routeMatches instanceof V2RouteMatch)) {
             return;
         }
 
         $request = $e->getRequest();
-        if (!$request instanceof Request) {
+        if (! $request instanceof Request) {
             return;
         }
 
         $headers = $request->getHeaders();
-        if (!$headers->has($this->headerName)) {
+        if (! $headers->has($this->headerName)) {
             return;
         }
 
@@ -111,10 +116,10 @@ class ContentTypeListener extends AbstractListenerAggregate
     /**
      * Inject regex matches into the route matches
      *
-     * @param  RouteMatch $routeMatches
+     * @param  RouteMatch|V2RouteMatch $routeMatches
      * @param  array $matches
      */
-    protected function injectRouteMatches(RouteMatch $routeMatches, array $matches)
+    protected function injectRouteMatches($routeMatches, array $matches)
     {
         foreach ($matches as $key => $value) {
             if (is_numeric($key) || is_int($key) || $value === '') {
