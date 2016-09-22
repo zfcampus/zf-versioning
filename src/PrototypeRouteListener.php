@@ -109,6 +109,8 @@ class PrototypeRouteListener implements ListenerAggregateInterface
                 continue;
             }
 
+            $config['router']['routes'][$routeName]['type'] = 'segment';
+
             if (false === strpos(
                 $config['router']['routes'][$routeName]['options']['route'],
                 $this->versionRoutePrefix
