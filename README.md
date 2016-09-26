@@ -112,7 +112,7 @@ information for URL based versioning.  This key is an array of route names that 
 `router.routes` configuration.  If a particular route is a child route, the chain will happen at the
 top-most ancestor.
 
-The route matching segment consists of a rule of `[/v:version]` while specifying a constraint
+The route matching segment consists of a rule of `[/v:zf_ver_version]` while specifying a constraint
 of digits only for the version parameter.
 
 Example:
