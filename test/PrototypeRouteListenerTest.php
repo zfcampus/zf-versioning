@@ -38,7 +38,7 @@ class PrototypeRouteListenerTest extends TestCase
                 'group' => [
                     'type' => 'Segment',
                     'options' => [
-                        'route' => '/group[/v:version][/:id]',
+                        'route' => '/group[/v:zf_ver_version][/:id]',
                         'defaults' => [
                             'controller' => 'GroupController',
                         ],
@@ -125,15 +125,15 @@ class PrototypeRouteListenerTest extends TestCase
             $options = $routeConfig['options'];
 
             $this->assertArrayHasKey('route', $options);
-            $this->assertSame($position, strpos($options['route'], '[/v:version]'));
+            $this->assertSame($position, strpos($options['route'], '[/v:zf_ver_version]'));
 
             $this->assertArrayHasKey('constraints', $options);
-            $this->assertArrayHasKey('version', $options['constraints']);
-            $this->assertEquals('\d+', $options['constraints']['version']);
+            $this->assertArrayHasKey('zf_ver_version', $options['constraints']);
+            $this->assertEquals('\d+', $options['constraints']['zf_ver_version']);
 
             $this->assertArrayHasKey('defaults', $options);
-            $this->assertArrayHasKey('version', $options['defaults']);
-            $this->assertEquals($apiVersion, $options['defaults']['version']);
+            $this->assertArrayHasKey('zf_ver_version', $options['defaults']);
+            $this->assertEquals($apiVersion, $options['defaults']['zf_ver_version']);
         }
     }
 }

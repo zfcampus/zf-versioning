@@ -22,7 +22,7 @@ class PrototypeRouteListener implements ListenerAggregateInterface
      *
      * @var string
      */
-    protected $versionRoutePrefix = '[/v:version]';
+    protected $versionRoutePrefix = '[/v:zf_ver_version]';
 
     /**
      * Constraints to introduce in versioned routes
@@ -31,10 +31,10 @@ class PrototypeRouteListener implements ListenerAggregateInterface
      */
     protected $versionRouteOptions = [
         'defaults'    => [
-            'version' => 1,
+            'zf_ver_version' => 1,
         ],
         'constraints' => [
-            'version' => '\d+',
+            'zf_ver_version' => '\d+',
         ],
     ];
 
@@ -84,7 +84,7 @@ class PrototypeRouteListener implements ListenerAggregateInterface
 
         // Override default version of 1 with user-specified config value, if available.
         if (isset($config['zf-versioning']['default_version'])) {
-            $this->versionRouteOptions['defaults']['version'] = $config['zf-versioning']['default_version'];
+            $this->versionRouteOptions['defaults']['zf_ver_version'] = $config['zf-versioning']['default_version'];
         }
 
         // Pre-process route list to strip out duplicates (often a result of
