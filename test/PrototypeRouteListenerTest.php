@@ -16,37 +16,38 @@ class PrototypeRouteListenerTest extends TestCase
     public function setUp()
     {
         $this->config = [
-          'router' => [
-            'routes' => [
-                'status' => [
-                    'type' => 'Segment',
-                    'options' => [
-                        'route' => '/status[/:id]',
-                        'defaults' => [
-                            'controller' => 'StatusController',
+            'router' => [
+                'routes' => [
+                    'status' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/status[/:id]',
+                            'defaults' => [
+                                'controller' => 'StatusController',
+                            ],
+                        ],
+                    ],
+                    'user' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/user[/:id]',
+                            'defaults' => [
+                                'controller' => 'UserController',
+                            ],
+                        ],
+                    ],
+                    'group' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/group[/v:version][/:id]',
+                            'defaults' => [
+                                'controller' => 'GroupController',
+                            ],
                         ],
                     ],
                 ],
-                'user' => [
-                    'type' => 'Segment',
-                    'options' => [
-                        'route' => '/user[/:id]',
-                        'defaults' => [
-                            'controller' => 'UserController',
-                        ],
-                    ],
-                ],
-                'group' => [
-                    'type' => 'Segment',
-                    'options' => [
-                        'route' => '/group[/v:version][/:id]',
-                        'defaults' => [
-                            'controller' => 'GroupController',
-                        ],
-                    ],
-                ],
-            ],
-        ]];
+            ]
+        ];
         $this->configListener = new ConfigListener();
         $this->configListener->setMergedConfig($this->config);
         $this->event = new ModuleEvent();
