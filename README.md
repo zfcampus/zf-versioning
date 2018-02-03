@@ -97,14 +97,26 @@ would look like:
 The `default_version` key provides the default version number to use in case a version is not
 provided by the client.  `1` is the default for `default_version`.
 
+It accepts an `integer` to set the default version number to *all* routes or an associative `array` with the route name as key and the version number as value to set a specific version for each route.
+
 Full Example:
 
 ```php
+// Set v2 as default version for all routes
 'zf-versioning' => [
-    'default_version' => 1,
+    'default_version' => 2,
 ],
 ```
-
+Or
+```php
+// Set default version to v2 and v3 for the users and status routes respectively
+'zf-versioning' => [
+    'default_version' => array(
+        'myapi.rest.users' => 2,
+        'myapi.rpc.status' => 3,
+    ),
+],
+```
 #### Key: `uri`
 
 The `uri` key is responsible for identifying which routes need to be prepended with route matching

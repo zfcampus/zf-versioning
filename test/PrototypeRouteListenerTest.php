@@ -15,7 +15,8 @@ class PrototypeRouteListenerTest extends TestCase
 {
     public function setUp()
     {
-        $this->config = ['router' => [
+        $this->config = [
+          'router' => [
             'routes' => [
                 'status' => [
                     'type' => 'Segment',
@@ -133,6 +134,100 @@ class PrototypeRouteListenerTest extends TestCase
 
             $this->assertArrayHasKey('defaults', $options);
             $this->assertArrayHasKey('version', $options['defaults']);
+            $this->assertEquals($apiVersion, $options['defaults']['version']);
+        }
+    }
+    public function defaultVersionValues()
+    {
+        return [
+            'v1' => [1],
+            'v2' => [2],
+            'empty' => [null],
+        ];
+    }
+
+    /**
+     * @dataProvider defaultVersionValues
+     */
+    public function testPrototypeAddedToRoutesWithDefaultVersion($apiVersion = null)
+    {
+        $routes = array_keys($this->config['router']['routes']);
+        $this->config['zf-versioning'] = [
+            'default_version' => $apiVersion,
+            'uri' => $routes
+        ];
+
+        $this->configListener->setMergedConfig($this->config);
+        $listener = new PrototypeRouteListener();
+        $listener->onMergeConfig($this->event);
+
+        $config = $this->configListener->getMergedConfig(false);
+        $this->assertArrayHasKey('router', $config, var_export($config, 1));
+        $routerConfig = $config['router'];
+
+        $routesConfig = $routerConfig['routes'];
+
+        foreach ($routes as $routeName) {
+            $this->assertArrayHasKey($routeName, $routesConfig);
+            $routeConfig = $routesConfig[$routeName];
+            $this->assertArrayHasKey('options', $routeConfig);
+            $options = $routeConfig['options'];
+
+            $this->assertArrayHasKey('constraints', $options);
+            $this->assertArrayHasKey('version', $options['constraints']);
+            $this->assertEquals('\d+', $options['constraints']['version']);
+
+            $this->assertArrayHasKey('defaults', $options);
+            $this->assertArrayHasKey('version', $options['defaults']);
+
+            $apiVersion = isset($apiVersion) ? $apiVersion : 1;
+            $this->assertEquals($apiVersion, $options['defaults']['version']);
+        }
+    }
+
+    public function specificDefaultVersionForWhichToVerifyPrototype()
+    {
+        return [
+            'status' => [['status' => 2]],
+            'user' => [['user' => 4]],
+            'all-except-group' => [['status' => 2, 'user' => 3]],
+        ];
+    }
+
+    /**
+     * @dataProvider specificDefaultVersionForWhichToVerifyPrototype
+     */
+    public function testPrototypeAddedToRoutesWithSpecificDefaultVersion(array $defaultVersions)
+    {
+        $routes = array_keys($this->config['router']['routes']);
+        $this->config['zf-versioning'] = [
+            'default_version' => $defaultVersions,
+            'uri' => $routes
+        ];
+
+        $this->configListener->setMergedConfig($this->config);
+        $listener = new PrototypeRouteListener();
+        $listener->onMergeConfig($this->event);
+
+        $config = $this->configListener->getMergedConfig(false);
+        $this->assertArrayHasKey('router', $config, var_export($config, 1));
+        $routerConfig = $config['router'];
+
+        $routesConfig = $routerConfig['routes'];
+
+        foreach ($routes as $routeName) {
+            $this->assertArrayHasKey($routeName, $routesConfig);
+            $routeConfig = $routesConfig[$routeName];
+            $this->assertArrayHasKey('options', $routeConfig);
+            $options = $routeConfig['options'];
+
+            $this->assertArrayHasKey('constraints', $options);
+            $this->assertArrayHasKey('version', $options['constraints']);
+            $this->assertEquals('\d+', $options['constraints']['version']);
+
+            $this->assertArrayHasKey('defaults', $options);
+            $this->assertArrayHasKey('version', $options['defaults']);
+            $apiVersion = isset($defaultVersions[$routeName]) ? $defaultVersions[$routeName] : 1;
             $this->assertEquals($apiVersion, $options['defaults']['version']);
         }
     }
