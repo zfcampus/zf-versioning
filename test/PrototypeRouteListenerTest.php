@@ -46,7 +46,7 @@ class PrototypeRouteListenerTest extends TestCase
                         ],
                     ],
                 ],
-            ]
+            ],
         ];
         $this->configListener = new ConfigListener();
         $this->configListener->setMergedConfig($this->config);
