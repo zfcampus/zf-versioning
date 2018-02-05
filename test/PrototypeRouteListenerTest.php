@@ -46,6 +46,15 @@ class PrototypeRouteListenerTest extends TestCase
                         ],
                     ],
                 ],
+                'literal' => [
+                    'type' => 'literal',
+                    'options' => [
+                        'route' => '/group',
+                        'defaults' => [
+                            'controller' => 'GroupController',
+                        ],
+                    ],
+                ],
             ],
         ];
         $this->configListener = new ConfigListener();
@@ -121,8 +130,11 @@ class PrototypeRouteListenerTest extends TestCase
 
         $routesConfig = $routerConfig['routes'];
         foreach ($routes as $routeName) {
+
             $this->assertArrayHasKey($routeName, $routesConfig);
             $routeConfig = $routesConfig[$routeName];
+
+            $this->assertSame('segment', $routeConfig['type']);
             $this->assertArrayHasKey('options', $routeConfig);
             $options = $routeConfig['options'];
 
