@@ -20,11 +20,16 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 1.2.1 - TBD
+## 1.2.1 - 2018-02-05
 
 ### Added
 
-- Nothing.
+- [#19](https://github.com/zfcampus/zf-versioning/pull/19) adds the ability to
+  override the `default_version` setting to specify default versions by route
+  name. As such, the `default_version` value may be one of the following:
+
+  - An integer value, indicating the default version for all APIs.
+  - An associative array of route name keys pointing to their specific default version.
 
 ### Deprecated
 
@@ -36,7 +41,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#19](https://github.com/zfcampus/zf-versioning/pull/19) fixes a problem with
+  how the `PrototypeRouteListener` handles the `default_version` setting; the
+  value was overriding route-specific defaults.
 
 ## 1.2.0 - 2016-07-13
 
