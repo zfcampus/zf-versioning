@@ -97,7 +97,10 @@ would look like:
 The `default_version` key provides the default version number to use in case a version is not
 provided by the client.  `1` is the default for `default_version`.
 
-It accepts an `integer` to set the default version number to *all* routes or an associative `array` with the route name as key and the version number as value to set a specific version for each route.
+The setting accepts one of the two following possible values:
+
+- A PHP `integer` indicating the default version number for *all* routes.
+- An associative array, where the keys are route names, and the values the default version to use with the associated route.
 
 Full Example:
 
@@ -107,7 +110,9 @@ Full Example:
     'default_version' => 2,
 ],
 ```
-Or
+
+or
+
 ```php
 // Set default version to v2 and v3 for the users and status routes respectively
 'zf-versioning' => [

@@ -84,7 +84,7 @@ class PrototypeRouteListener implements ListenerAggregateInterface
 
         // Override default version of 1 with user-specified config value, if available.
         if (isset($config['zf-versioning']['default_version'])
-            && !is_array($config['zf-versioning']['default_version'])
+            && is_scalar($config['zf-versioning']['default_version'])
         ) {
             $this->versionRouteOptions['defaults']['version'] = $config['zf-versioning']['default_version'];
         }
