@@ -121,7 +121,6 @@ class PrototypeRouteListener implements ListenerAggregateInterface
 
             $routeVersion = $this->versionRouteOptions;
             if (isset($config['zf-versioning']['default_version']) &&
-            is_array($config['zf-versioning']['default_version']) &&
             isset($config['zf-versioning']['default_version'][$routeName])) {
                 $routeVersion['defaults']['version'] = $config['zf-versioning']['default_version'][$routeName];
             }

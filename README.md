@@ -111,12 +111,13 @@ Or
 ```php
 // Set default version to v2 and v3 for the users and status routes respectively
 'zf-versioning' => [
-    'default_version' => array(
+    'default_version' => [
         'myapi.rest.users' => 2,
         'myapi.rpc.status' => 3,
-    ),
+    ],
 ],
 ```
+
 #### Key: `uri`
 
 The `uri` key is responsible for identifying which routes need to be prepended with route matching

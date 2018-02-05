@@ -138,6 +138,7 @@ class PrototypeRouteListenerTest extends TestCase
             $this->assertEquals($apiVersion, $options['defaults']['version']);
         }
     }
+    
     public function defaultVersionValues()
     {
         return [
