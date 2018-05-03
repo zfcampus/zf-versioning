@@ -103,7 +103,7 @@ class ContentTypeListener implements ListenerAggregateInterface
         $contentType = trim($contentType);
 
         foreach (array_reverse($this->regexes) as $regex) {
-            if (!preg_match($regex, $contentType, $matches)) {
+            if (! preg_match($regex, $contentType, $matches)) {
                 continue;
             }
 
