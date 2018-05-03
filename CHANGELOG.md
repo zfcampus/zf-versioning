@@ -2,11 +2,11 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.3.0 - TBD
+## 1.3.0 - 2018-05-03
 
 ### Added
 
-- Nothing.
+- [#21](https://github.com/zfcampus/zf-versioning/pull/21) adds support for PHP 7.1 and 7.2.
 
 ### Changed
 
@@ -18,29 +18,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
-## 1.2.2 - TBD
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
+- [#21](https://github.com/zfcampus/zf-versioning/pull/21) removes support for HHVM.
 
 ### Fixed
 
