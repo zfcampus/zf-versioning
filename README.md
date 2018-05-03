@@ -1,7 +1,8 @@
 ZF Versioning
 =============
 
-[![Build Status](https://travis-ci.org/zfcampus/zf-versioning.png)](https://travis-ci.org/zfcampus/zf-versioning)
+[![Build Status](https://secure.travis-ci.org/zfcampus/zf-versioning.svg?branch=master)](https://secure.travis-ci.org/zfcampus/zf-versioning)
+[![Coverage Status](https://coveralls.io/repos/github/zfcampus/zf-versioning/badge.svg?branch=master)](https://coveralls.io/github/zfcampus/zf-versioning?branch=master)
 
 Introduction
 ------------
