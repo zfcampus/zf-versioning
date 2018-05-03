@@ -6,7 +6,7 @@
 
 namespace ZFTest\Versioning;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\ModuleManager\Listener\ConfigListener;
 use Zend\ModuleManager\ModuleEvent;
 use ZF\Versioning\PrototypeRouteListener;
@@ -52,7 +52,6 @@ class PrototypeRouteListenerTest extends TestCase
         $this->configListener->setMergedConfig($this->config);
         $this->event = new ModuleEvent();
         $this->event->setConfigListener($this->configListener);
-
     }
 
     public function routesWithoutPrototype()
@@ -105,7 +104,7 @@ class PrototypeRouteListenerTest extends TestCase
             'uri' => $routes
         ];
 
-        if (!empty($apiVersion)) {
+        if (! empty($apiVersion)) {
             $this->config['zf-versioning']['default_version'] = $apiVersion;
         } else {
             $apiVersion = 1;
