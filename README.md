@@ -3,7 +3,7 @@ ZF Versioning
 
 > ## Repository abandoned 2019-12-31
 >
-> This repository has moved to laminas-api-tools/api-tools-versioning.
+> This repository has moved to [laminas-api-tools/api-tools-versioning](https://github.com/laminas-api-tools/api-tools-versioning).
 
 [![Build Status](https://secure.travis-ci.org/zfcampus/zf-versioning.svg?branch=master)](https://secure.travis-ci.org/zfcampus/zf-versioning)
 [![Coverage Status](https://coveralls.io/repos/github/zfcampus/zf-versioning/badge.svg?branch=master)](https://coveralls.io/github/zfcampus/zf-versioning?branch=master)
